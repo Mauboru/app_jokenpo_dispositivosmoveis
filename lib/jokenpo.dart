@@ -20,9 +20,13 @@ class _JokenpoHomeState extends State<JokenpoHome> {
     final opcaoApp = listaOpcoes[Random().nextInt(3)];
 
     setState(() {
-      _imgApp = Image.asset('assets/images/$opcaoApp.png');
+      _imgApp = Image(image: AssetImage('assets/images/$opcaoApp.png'));
       _mensagem = _resultado(opcaoJogador, opcaoApp);
     });
+  }
+
+  void _placar(){
+    
   }
 
   String _resultado(String opcaoJogdor, String opcaoApp) {
@@ -33,9 +37,7 @@ class _JokenpoHomeState extends State<JokenpoHome> {
         (opcaoJogdor == 'tesoura') && (opcaoApp == 'papel')){
           mensagem = 'Você Ganhou!!';
           numVitorias++;
-    } else if ((opcaoJogdor == 'pedra') && (opcaoApp == 'pedra') ||
-              (opcaoJogdor == 'papel') && (opcaoApp == 'papel') ||
-              (opcaoJogdor == 'tesoura') && (opcaoApp == 'tesoura')){
+    } else if (opcaoApp == opcaoJogdor){
       mensagem = 'Empate!!';
       numEmpates++;
     } else {
@@ -49,7 +51,7 @@ class _JokenpoHomeState extends State<JokenpoHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Jokempo TADS22"),
+        title: const Text("Jokempo-Emoji"),
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,
       ),
@@ -62,31 +64,33 @@ class _JokenpoHomeState extends State<JokenpoHome> {
             textHome(_mensagem),
             const SizedBox(height: 20),
 
-            ElevatedButton(
-              onPressed: () => _joga('pedra'),
-              child: const Text('Pedra'),
-            ),
-
-            ElevatedButton(
-              onPressed: () => _joga('papel'),
-              child: const Text('Papel'),
-            ),
-
-            ElevatedButton(
-              onPressed: () => _joga('tesoura'),
-              child: const Text('Tesoura'),
-            )
+            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+              choisePlayerDetector('pedra',
+                  image: Image.asset(
+                    'assets/images/pedra.png',
+                    width: 80,
+              )),
+              choisePlayerDetector('papel',
+                  image: Image.asset(
+                    'assets/images/papel.png',
+                    width: 80,
+              )),
+              choisePlayerDetector('tesoura',
+                  image: Image.asset(
+                    'assets/images/tesoura.png',
+                    width: 80,
+              )),
+            ]),
           ],
         )
       )
     );
   }
 
-  GestureDetector choisePlayerDetector(String playerOpp) {
+  GestureDetector choisePlayerDetector(String playerOpp, {Image? image}) {
     return GestureDetector(
-      onTap: () {
-        print("Deu certo");
-      },
+      onTap: () => _joga(playerOpp),
+      child: image,
     );
   }
 

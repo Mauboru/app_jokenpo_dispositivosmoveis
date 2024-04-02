@@ -1,5 +1,5 @@
-import 'package:app_jokenpo_dispositivosmoveis/jokenpo.dart';
 import 'package:flutter/material.dart';
+import 'package:jokenpo/jokenpo.dart';
 
 void main() {
   final ThemeData thema = ThemeData();
