@@ -25,10 +25,6 @@ class _JokenpoHomeState extends State<JokenpoHome> {
     });
   }
 
-  void _placar(){
-    
-  }
-
   String _resultado(String opcaoJogdor, String opcaoApp) {
     final String mensagem;
     
@@ -61,7 +57,7 @@ class _JokenpoHomeState extends State<JokenpoHome> {
           children: [
             _imgApp,
             const SizedBox(height: 20),
-            textHome(_mensagem),
+            textHome(_mensagem, '2024'),
             const SizedBox(height: 20),
 
             Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -81,10 +77,36 @@ class _JokenpoHomeState extends State<JokenpoHome> {
                     width: 80,
               )),
             ]),
+
+            Row(mainAxisAlignment:  MainAxisAlignment.spaceEvenly, children: [
+              textHome('Vitórias: ', numVitorias.toString()),
+              textHome('Empates: ', numEmpates.toString()),
+              textHome('Derrotas: ', numDerrotas.toString())
+            ]),
           ],
         )
-      )
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.refresh),
+        onPressed: () {
+          reload();
+        },
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.amber,
+        child: Container(height: 50),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
+  }
+
+  void reload(){
+    setState(() {
+      numDerrotas = 0;
+      numVitorias = 0;
+      numEmpates = 0;
+      _mensagem = 'Recarregou!!';
+    });
   }
 
   GestureDetector choisePlayerDetector(String playerOpp, {Image? image}) {
@@ -94,13 +116,24 @@ class _JokenpoHomeState extends State<JokenpoHome> {
     );
   }
 
-  Text textHome(String text) {
-    return Text(
-      text,
-      style: const TextStyle(
-        fontWeight: FontWeight.bold,
-        fontSize: 22,
-      )
+  Widget textHome(String text1, String text2) {
+    return Column(
+      children: [
+        Text(
+          text1,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
+        Text(
+          text2,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
+      ],
     );
   }
 }
